@@ -2,13 +2,13 @@
 #SBATCH --mem-per-cpu=1024
 #SBATCH --time=48:00:00
 #SBATCH --job-name=Trimmomatic
-#SBATCH --mail-user=humberto.ortiz@upr.edu
+#SBATCH --mail-user=anelisse.dominicci@upr.edu
 #SBATCH --mail-type=ALL
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 
 # Load project
-source /home/humberto/humberto/miniconda3/etc/profile.d/conda.sh
+source /home/humberto/adominicci/miniconda3/etc/profile.d/conda.sh
 conda activate roble
 
 # Delete any old orphan reads
@@ -28,9 +28,9 @@ do
   trimmomatic PE -threads 8 ${base}.fastq.gz ${baseR2}.fastq.gz \
     ${base}.qc.fq.gz s1_se \
     ${baseR2}.qc.fq.gz s2_se \
-    ILLUMINACLIP:adapters.txt:2:40:15 \
-    LEADING:2 TRAILING:2 \
-    SLIDINGWINDOW:4:2 \
+    ILLUMINACLIP:Combinados:2:40:15 \
+    LEADING:5 TRAILING:5 \
+    SLIDINGWINDOW:4:5 \
     MINLEN:25
 
   # save the orphans
