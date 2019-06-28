@@ -11,19 +11,17 @@
 source /home/humberto/adominicci/miniconda3/etc/profile.d/conda.sh
 conda activate roble
 
-# Delete any old orphan reads
-rm -f orphans.qc.fq.gz
-
 for filename in *_1.qc.fq.gz
 do
   # first, make the base by removing fastq.gz
-  base=$(basename $filename .qc.fq.gz)
+  base=$(basename $filename _1.qc.fq.gz)
   echo $base
 
   # now, construct the R2 filename by replacing R1 with R2
-  baseR2=${base/_1/_2}
+  baseR2=${base}_2
+  baseR1=${base}_1
   echo $baseR2
 
  # finally, run interleave-reads.py
-  interleave-reads.py -o ${base}.pe.qc.fq.gz ${base}.qc.fq.gz ${baseR2}.qc.fq.gz
+  interleave-reads.py --no-reformat --gzip -o ${base}.pe.qc.fq.gz ${baseR1}.qc.fq.gz ${baseR2}.qc.fq.gz
 done
